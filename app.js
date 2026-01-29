@@ -1,88 +1,101 @@
-(function () {
+(() => {
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  // Year
   const yearEl = $("#year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-  // Smooth scroll
-  $$('a[href^="#"]').forEach(a => {
-    a.addEventListener("click", (e) => {
-      const href = a.getAttribute("href");
-      if (!href || href.length < 2) return;
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  $$('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const href = link.getAttribute("href");
+      if (!href || href.length < 2) return;
       const target = document.querySelector(href);
       if (!target) return;
-
-      e.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-
-      // Close mobile menu after click
-      const mm = $('[data-mobilemenu]');
-      if (mm && !mm.hidden) mm.hidden = true;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "start" });
     });
   });
 
-  // Mobile menu toggle
-  const navToggle = $('[data-nav-toggle]');
-  const mobileMenu = $('[data-mobilemenu]');
+  const navToggle = $("[data-nav-toggle]");
+  const mobileMenu = $("[data-mobilemenu]");
   if (navToggle && mobileMenu) {
+    const closeMenu = () => {
+      navToggle.setAttribute("aria-expanded", "false");
+      mobileMenu.hidden = true;
+    };
+
     navToggle.addEventListener("click", () => {
-      mobileMenu.hidden = !mobileMenu.hidden;
+      const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+      navToggle.setAttribute("aria-expanded", String(!isOpen));
+      mobileMenu.hidden = isOpen;
+    });
+
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    document.addEventListener("click", (event) => {
+      if (mobileMenu.hidden) return;
+      if (!mobileMenu.contains(event.target) && !navToggle.contains(event.target)) {
+        closeMenu();
+      }
     });
   }
 
-  // Modal controls
-  const modal = $('[data-modal]');
-  const openButtons = $$('[data-open-lotsheet]');
-  const closeButtons = $$('[data-modal-close]');
+  const modal = $("#lotModal");
+  const openButtons = $$('[data-open-lot-modal]');
+  const closeButtons = $$('[data-close-lot-modal]');
+  const lotContinue = $("#lotContinue");
+  const lotInterest = $("#lotInterest");
+  const lotVolume = $("#lotVolume");
 
-  const lsInterest = $('[data-ls-interest]');
-  const lsVolume = $('[data-ls-volume]');
-  const lsContinue = $('[data-ls-continue]');
+  const contactForm = $("#contactForm");
+  const contactInterest = $("#interest");
+  const contactVolume = $("#volume");
+  const contactMessage = $("#message");
 
-  const contactForm = $("#contact-form");
-  const contactInterest = contactForm ? $('select[name="interest"]', contactForm) : null;
-  const contactMessage = contactForm ? $('textarea[name="message"]', contactForm) : null;
-
-  function openModal() {
+  const openModal = (presetInterest) => {
     if (!modal) return;
-    modal.hidden = false;
+    if (presetInterest && lotInterest) lotInterest.value = presetInterest;
+    modal.classList.remove("hidden");
     modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
-    // Focus first field for accessibility
-    setTimeout(() => lsInterest && lsInterest.focus(), 0);
-  }
+    setTimeout(() => lotInterest && lotInterest.focus(), 0);
+  };
 
-  function closeModal() {
+  const closeModal = () => {
     if (!modal) return;
-    modal.hidden = true;
+    modal.classList.add("hidden");
     modal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
-  }
+  };
 
-  openButtons.forEach(btn => btn.addEventListener("click", openModal));
-  closeButtons.forEach(btn => btn.addEventListener("click", closeModal));
+  openButtons.forEach((btn) => {
+    btn.addEventListener("click", () => openModal(btn.dataset.interest));
+  });
+  closeButtons.forEach((btn) => btn.addEventListener("click", closeModal));
 
-  // ESC closes
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal && !modal.hidden) closeModal();
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && modal && !modal.classList.contains("hidden")) {
+      closeModal();
+    }
   });
 
-  // Continue -> Prefill + jump to contact
-  if (lsContinue) {
-    lsContinue.addEventListener("click", () => {
-      const interest = lsInterest ? lsInterest.value : "Both";
-      const vol = lsVolume && lsVolume.value ? String(lsVolume.value) : "";
+  if (lotContinue) {
+    lotContinue.addEventListener("click", () => {
+      const interest = lotInterest ? lotInterest.value : "Both";
+      const volume = lotVolume && lotVolume.value ? String(lotVolume.value) : "";
 
       if (contactInterest) contactInterest.value = interest;
+      if (contactVolume && volume) contactVolume.value = volume;
 
       if (contactMessage) {
         const lines = [
           "Requesting current lot sheet.",
           `- Interest: ${interest}`,
-          vol ? `- Volume: ${vol}` : "- Volume: (add)",
+          volume ? `- Volume: ${volume}` : "- Volume: (add)",
           "- Target specs (moisture, screen, defects, etc.):",
           "- Delivery window:",
           "- Destination / receiving city:"
@@ -92,45 +105,100 @@
 
       closeModal();
       const contact = $("#contact");
-      if (contact) contact.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (contact) contact.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "start" });
       setTimeout(() => {
-        const name = contactForm ? $('input[name="name"]', contactForm) : null;
-        if (name) name.focus();
-      }, 350);
+        const nameField = $("#name");
+        if (nameField) nameField.focus();
+      }, 320);
     });
   }
 
-  // Contact form: mailto fallback draft
+  const revealEls = $$('[data-reveal]');
+  if (revealEls.length && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    revealEls.forEach((el) => observer.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add("is-visible"));
+  }
+
   if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
-      e.preventDefault();
+    const statusEl = contactForm.querySelector("[data-form-status]");
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const honeypot = contactForm.querySelector('input[name="companySite"]');
 
-      const data = new FormData(contactForm);
-      const name = (data.get("name") || "").toString().trim();
-      const company = (data.get("company") || "").toString().trim();
-      const email = (data.get("email") || "").toString().trim();
-      const interest = (data.get("interest") || "").toString().trim();
-      const message = (data.get("message") || "").toString().trim();
+    contactForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-      const subject = `Terra Veritas — Lot Request (${interest})`;
-      const body = [
-        `Name: ${name}`,
-        company ? `Company: ${company}` : `Company: (not provided)`,
-        `Email: ${email}`,
-        `Interest: ${interest}`,
-        "",
-        message || "(no message)"
-      ].join("\n");
+      const endpoint = contactForm.dataset.sheetEndpoint || "";
+      if (!endpoint || endpoint.includes("REPLACE_ME")) {
+        if (statusEl) {
+          statusEl.dataset.state = "error";
+          statusEl.textContent = "Form is not connected yet. Replace the Google Apps Script URL to enable submissions.";
+        }
+        return;
+      }
 
-      // Replace with your inbox later
-      const to = "info@terraveritascoffee.com";
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending...";
+      }
 
-      const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      if (statusEl) {
+        statusEl.dataset.state = "";
+        statusEl.textContent = "Sending your request...";
+      }
 
-      window.location.href = mailto;
+      const formData = new FormData(contactForm);
+      if (honeypot && honeypot.value.trim()) {
+        if (statusEl) {
+          statusEl.dataset.state = "success";
+          statusEl.textContent = "Thanks! We will reply with a lot sheet shortly.";
+        }
+        contactForm.reset();
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send request";
+        }
+        return;
+      }
 
-      const hint = document.querySelector("[data-form-hint]");
-      if (hint) hint.textContent = "Opening your email client with a prefilled draft…";
+      formData.append("page", window.location.href);
+      formData.append("submittedAt", new Date().toISOString());
+
+      try {
+        await fetch(endpoint, {
+          method: "POST",
+          body: formData,
+          mode: "no-cors"
+        });
+
+        if (statusEl) {
+          statusEl.dataset.state = "success";
+          statusEl.textContent = "Thanks! We will reply with a lot sheet shortly.";
+        }
+        contactForm.reset();
+      } catch (error) {
+        if (statusEl) {
+          statusEl.dataset.state = "error";
+          statusEl.textContent = "Something went wrong. Please email info@terraveritascoffee.com.";
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send request";
+        }
+      }
     });
   }
 })();
