@@ -4,83 +4,64 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Terra Veritas Coffee — Green Coffee Sourcing</title>
-  <meta name="description" content="Terra Veritas Global LLC — Texas-based sourcing and import partner for traceable Ugandan green coffee (Robusta & Arabica)." />
+  <meta name="description" content="Texas-based green coffee sourcing & import support. Traceable Uganda-origin lots: Robusta and Arabica." />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <!-- Top bar -->
+  <!-- Top Nav -->
   <header class="topbar">
-    <div class="container topbar__inner">
+    <div class="container navwrap">
       <a class="brand" href="#top" aria-label="Terra Veritas Coffee home">
-        <span class="brand__mark" aria-hidden="true"></span>
-        <span class="brand__text">
-          <span class="brand__name">Terra Veritas</span>
-          <span class="brand__tag">Green Coffee Sourcing</span>
+        <span class="brandmark" aria-hidden="true"></span>
+        <span class="brandtext">
+          <span class="brandname">Terra Veritas</span>
+          <span class="brandsub">Green Coffee Sourcing</span>
         </span>
       </a>
 
-      <nav class="nav" aria-label="Primary navigation">
+      <nav class="nav" aria-label="Primary">
         <a href="#supply">Supply</a>
         <a href="#lots">Available Lots</a>
         <a href="#quality">Quality</a>
         <a href="#import">Import</a>
         <a href="#about">About</a>
-        <a class="nav__cta" href="#contact">Contact</a>
+        <a class="nav-cta" href="#contact">Contact</a>
       </nav>
-
-      <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle>
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-
-    <div class="mobile-nav" data-mobile-nav>
-      <a href="#supply">Supply</a>
-      <a href="#lots">Available Lots</a>
-      <a href="#quality">Quality</a>
-      <a href="#import">Import</a>
-      <a href="#about">About</a>
-      <a class="nav__cta" href="#contact">Contact</a>
     </div>
   </header>
 
   <!-- Hero -->
   <main id="top">
     <section class="hero" aria-label="Hero">
-      <div class="hero__bg" role="img" aria-label="Coffee cherries on branch background"></div>
-      <div class="container hero__inner">
-        <div class="hero__copy">
-          <p class="pill">Uganda origin • Robusta & Arabica • Green coffee</p>
+      <div class="hero-bg" role="img" aria-label="Green coffee drying and handling"></div>
+      <div class="container hero-inner">
+        <div class="hero-card">
+          <p class="eyebrow">Texas-based sourcing partner</p>
           <h1>Traceable green coffee lots, delivered with U.S. import support.</h1>
           <p class="lead">
-            Terra Veritas Global LLC sources spec-driven Ugandan green coffee through vetted partners,
-            aligning quality, documentation, and logistics for U.S. buyers.
+            Uganda-origin <strong>Robusta</strong> and <strong>Arabica</strong>—lot-level documentation, spec-driven sourcing, and reliable coordination
+            from origin to your receiving point.
           </p>
 
-          <div class="hero__actions">
-            <button class="btn btn--primary" type="button" data-open-lot-modal>
+          <div class="hero-actions">
+            <button class="btn primary" type="button" data-open-lot-modal>
               Request Lot Sheet
             </button>
-            <a class="btn btn--ghost" href="#contact" data-talk-sourcing>
+            <a class="btn secondary" href="#contact" data-talk-to-sourcing>
               Talk to Sourcing
             </a>
           </div>
 
-          <div class="hero__meta">
-            <div class="meta-item">
-              <span class="meta-k">Based in</span>
-              <span class="meta-v">Mansfield, Texas</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-k">Focus</span>
-              <span class="meta-v">Traceable green coffee lots</span>
-            </div>
+          <div class="hero-meta">
+            <div class="pill">Robusta • Arabica</div>
+            <div class="pill">Traceable lots</div>
+            <div class="pill">Import coordination</div>
           </div>
         </div>
       </div>
@@ -88,85 +69,97 @@
 
     <!-- Supply -->
     <section id="supply" class="section">
-      <div class="container">
-        <div class="section__head">
+      <div class="container section-grid">
+        <div class="section-copy">
           <h2>Supply</h2>
-          <p>Lot-driven sourcing from Uganda with clear specs and repeatable handling.</p>
-        </div>
+          <p class="muted">
+            We source green coffee through vetted origin relationships in Uganda, focusing on consistent handling and lot-level documentation.
+          </p>
 
-        <div class="split">
           <div class="card">
-            <h3>What we source</h3>
+            <h3>What we provide</h3>
             <ul class="bullets">
-              <li><strong>Robusta:</strong> commercial to premium grades per lot spec</li>
-              <li><strong>Arabica:</strong> selected lots with defined processing & traceability</li>
-              <li><strong>Packaging:</strong> export-ready bagging aligned to shipment plan</li>
+              <li>Robusta and Arabica sourcing aligned to target specs</li>
+              <li>Lot sheet + sampling pathway (where available)</li>
+              <li>Spec-driven selection: moisture, screen, defects, density</li>
+              <li>Coordination across export prep and U.S. receiving</li>
             </ul>
-
-            <div class="mini-grid">
-              <div class="mini">
-                <div class="mini__k">Origin</div>
-                <div class="mini__v">Uganda</div>
-              </div>
-              <div class="mini">
-                <div class="mini__k">Mode</div>
-                <div class="mini__v">Spec-driven lots</div>
-              </div>
-              <div class="mini">
-                <div class="mini__k">Reliability</div>
-                <div class="mini__v">Vetted partners</div>
-              </div>
-            </div>
           </div>
 
-          <figure class="media">
-            <img
-              src="assets/img/supply-coffee-bags-1600.jpg"
-              alt="Coffee bags displayed in a shop setting"
-              loading="lazy"
-            />
-            <figcaption>Supply presented by lot, aligned to your target profile and delivery window.</figcaption>
-          </figure>
+          <div class="two-cards">
+            <div class="mini-card">
+              <h4>Uganda Robusta</h4>
+              <p class="muted">Commercial to premium grades depending on lot specification.</p>
+            </div>
+            <div class="mini-card">
+              <h4>Uganda Arabica</h4>
+              <p class="muted">Selected lots with defined processing and traceability.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-media">
+          <img
+            class="img"
+            src="assets/img/supply-burlap-1600.jpg"
+            alt="Coffee beans in a burlap sack for trade and handling"
+            loading="lazy"
+          />
+          <p class="caption">Supply is managed to agreed specs with clear lot documentation.</p>
         </div>
       </div>
     </section>
 
     <!-- Available Lots -->
-    <section id="lots" class="section section--alt">
+    <section id="lots" class="section alt">
       <div class="container">
-        <div class="section__head">
+        <div class="section-head">
           <h2>Available Lots</h2>
-          <p>We share current lots via a lot sheet: specs, availability, and shipping assumptions.</p>
+          <p class="muted">Current lots change. Request the latest sheet and share your target specs and delivery window.</p>
         </div>
 
-        <div class="cards">
-          <article class="card">
-            <h3>Robusta (Uganda)</h3>
-            <p class="muted">Request current lots with target grade, screen, and defect tolerances.</p>
-            <ul class="bullets">
-              <li>Lot ID + origin notes</li>
-              <li>Specs: moisture / screen / defects</li>
-              <li>Volume + lead time</li>
-            </ul>
-          </article>
-
-          <article class="card">
-            <h3>Arabica (Uganda)</h3>
-            <p class="muted">Selected lots with defined processing and documentation.</p>
-            <ul class="bullets">
-              <li>Processing method</li>
-              <li>Traceability notes</li>
-              <li>Sample plan (if required)</li>
-            </ul>
-          </article>
-
-          <article class="card">
-            <h3>How to request</h3>
-            <p class="muted">Tell us your interest + approximate volume. We’ll respond with current lots.</p>
-            <div class="stack">
-              <button class="btn btn--primary" type="button" data-open-lot-modal>Request Lot Sheet</button>
-              <a class="btn btn--ghost" href="#contact">Talk to Sourcing</a>
+        <div class="lots-grid">
+          <article class="lot-card">
+            <div class="lot-top">
+              <h3>Robusta (Uganda)</h3>
+              <span class="tag">Green beans</span>
             </div>
+            <ul class="bullets">
+              <li>Target specs shared on request (moisture/screen/defects)</li>
+              <li>Lot-level traceability where available</li>
+              <li>Volumes: from partial lots to container planning</li>
+            </ul>
+            <button class="btn primary small" type="button" data-open-lot-modal data-interest="Robusta">
+              Request Lot Sheet
+            </button>
+          </article>
+
+          <article class="lot-card">
+            <div class="lot-top">
+              <h3>Arabica (Uganda)</h3>
+              <span class="tag">Green beans</span>
+            </div>
+            <ul class="bullets">
+              <li>Defined processing (by lot availability)</li>
+              <li>Sampling path discussed case-by-case</li>
+              <li>Logistics planned to match receiving timelines</li>
+            </ul>
+            <button class="btn primary small" type="button" data-open-lot-modal data-interest="Arabica">
+              Request Lot Sheet
+            </button>
+          </article>
+
+          <article class="lot-card">
+            <div class="lot-top">
+              <h3>Program Supply</h3>
+              <span class="tag">Forward planning</span>
+            </div>
+            <ul class="bullets">
+              <li>Repeatable lots for roasters and importers</li>
+              <li>Spec alignment + packaging/export readiness</li>
+              <li>Lead times agreed per shipment plan</li>
+            </ul>
+            <a class="btn secondary small" href="#contact">Talk to Sourcing</a>
           </article>
         </div>
       </div>
@@ -174,225 +167,224 @@
 
     <!-- Quality & Traceability -->
     <section id="quality" class="section">
-      <div class="container">
-        <div class="section__head">
-          <h2>Quality & Traceability</h2>
-          <p>Practical controls: lot identity, documentation, and spec alignment—not fluff.</p>
-        </div>
-
-        <div class="split split--reverse">
-          <figure class="media">
-            <img
-              src="assets/img/quality-green-beans-1600.jpg"
-              alt="Green coffee beans close-up"
-              loading="lazy"
-            />
-            <figcaption>Lot-level documentation and spec checks to reduce surprises.</figcaption>
-          </figure>
+      <div class="container section-grid flip">
+        <div class="section-copy">
+          <h2>Quality &amp; Traceability</h2>
+          <p class="muted">
+            Practical controls for consistency: lot documentation, handling requirements, and spec checks aligned to your needs.
+          </p>
 
           <div class="card">
-            <h3>What we verify (per lot)</h3>
+            <h3>What we verify (by lot)</h3>
             <ul class="bullets">
-              <li><strong>Specs:</strong> moisture, screen size, defects (as applicable)</li>
-              <li><strong>Traceability:</strong> lot ID, origin notes, handling records</li>
-              <li><strong>Documentation:</strong> export docs aligned to shipment plan</li>
+              <li>Moisture targets, screen size, defect tolerances</li>
+              <li>Basic traceability: origin, processing notes, lot identifiers</li>
+              <li>Packaging and handling to reduce risk in transit</li>
             </ul>
-            <p class="muted">
-              If you have a target profile or compliance constraints, include them in your request and we’ll align before shipment.
+            <p class="note">
+              If you have a standard QC checklist, we’ll align to it.
             </p>
           </div>
+        </div>
+
+        <div class="section-media">
+          <img
+            class="img"
+            src="assets/img/quality-green-beans-1200.jpg"
+            alt="Green coffee beans close-up for inspection"
+            loading="lazy"
+          />
+          <p class="caption">Lot-level specs and documentation reduce surprises.</p>
         </div>
       </div>
     </section>
 
     <!-- Import & Delivery -->
-    <section id="import" class="section section--alt">
+    <section id="import" class="section alt">
       <div class="container">
-        <div class="section__head">
-          <h2>Import & Delivery</h2>
-          <p>We coordinate the U.S. side: timelines, shipment assumptions, and receiving plan.</p>
+        <div class="section-head">
+          <h2>Import &amp; Delivery</h2>
+          <p class="muted">We coordinate the path from origin to U.S. receiving with clear assumptions and documentation.</p>
         </div>
 
-        <div class="cards">
-          <article class="card">
+        <div class="three-grid">
+          <div class="card">
             <h3>Import support</h3>
             <ul class="bullets">
-              <li>Shipment planning + lead times</li>
-              <li>Documentation checklist (by shipment)</li>
-              <li>Receiving coordination for U.S. buyers</li>
+              <li>Shipment planning and timeline alignment</li>
+              <li>Documentation coordination for receiving</li>
+              <li>Clear Incoterms assumptions per deal</li>
             </ul>
-          </article>
+          </div>
 
-          <article class="card">
+          <div class="card">
             <h3>Delivery approach</h3>
             <ul class="bullets">
-              <li>Lot-based scheduling</li>
-              <li>Clear assumptions (volume, timing, packaging)</li>
-              <li>Communication cadence through delivery</li>
+              <li>LCL and container planning (case-dependent)</li>
+              <li>Tracking and milestone updates</li>
+              <li>Risk notes (seasonality, lead times)</li>
             </ul>
-          </article>
+          </div>
 
-          <article class="card">
+          <div class="card">
             <h3>Best fit</h3>
-            <p class="muted">Roasters, importers, and buyers who need repeatable lots with clean documentation.</p>
-            <a class="btn btn--primary" href="#contact">Talk to Sourcing</a>
-          </article>
+            <ul class="bullets">
+              <li>Roasters, importers, and wholesale buyers</li>
+              <li>Spec-driven procurement teams</li>
+              <li>Repeatable programs and spot buys</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- About -->
     <section id="about" class="section">
-      <div class="container">
-        <div class="section__head">
+      <div class="container about">
+        <div class="section-head">
           <h2>About</h2>
-          <p>Texas-based partner coordinating Uganda-origin supply for U.S. buyers.</p>
+          <p class="muted">
+            Terra Veritas Global LLC works as a lean sourcing and import partner for Uganda-origin green coffee—built around reliability,
+            clear documentation, and straightforward execution.
+          </p>
         </div>
 
-        <div class="about">
+        <div class="about-grid">
           <div class="card">
             <h3>Terra Veritas Global LLC</h3>
-            <p>
-              We focus on green coffee beans first: Robusta and Arabica from Uganda, sourced through
-              reliable relationships and managed with a spec-first, lot-driven approach.
-            </p>
-            <p class="muted subtle">
-              We value clear documentation, practical integrity, and straightforward execution.
+            <p class="muted">
+              Texas-based. Focused on green coffee lots (Robusta and Arabica), with scalable pathways to program supply.
             </p>
           </div>
 
           <div class="card">
             <h3>Business address</h3>
             <p class="muted">
-              1112 Maverick Dr<br/>
-              Mansfield, TX 76063, USA
+              1112 Maverick Dr<br />
+              Mansfield, TX 76063<br />
+              United States
             </p>
-            <p class="muted">Website: <span class="mono">terraveritascoffee.com</span></p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="section section--alt">
+    <section id="contact" class="section alt">
       <div class="container">
-        <div class="section__head">
+        <div class="section-head">
           <h2>Contact</h2>
-          <p>Share your target specs and timelines. We’ll respond with next steps and, if applicable, a current lot sheet.</p>
+          <p class="muted">
+            Share target specs, approximate volume, and timeline. We’ll respond with next steps and, if applicable, a current lot sheet.
+          </p>
         </div>
 
-        <div class="contact">
+        <div class="contact-grid">
           <div class="card">
             <h3>Primary</h3>
             <p class="muted">Request a current lot sheet (Robusta / Arabica / Both).</p>
-            <button class="btn btn--primary" type="button" data-open-lot-modal>Request Lot Sheet</button>
+            <button class="btn primary" type="button" data-open-lot-modal>
+              Request Lot Sheet
+            </button>
 
             <div class="divider"></div>
 
             <h3>Secondary</h3>
             <p class="muted">Talk through sourcing requirements and delivery assumptions.</p>
-            <a class="btn btn--ghost" href="#contact" data-talk-sourcing>Talk to Sourcing</a>
+            <a class="btn secondary" href="#contact" data-talk-to-sourcing>
+              Talk to Sourcing
+            </a>
           </div>
 
-          <form class="card form" id="contactForm" novalidate>
-            <div class="form__row">
-              <label>
-                <span>Name</span>
-                <input type="text" name="name" autocomplete="name" required />
-              </label>
-              <label>
-                <span>Company</span>
-                <input type="text" name="company" autocomplete="organization" />
-              </label>
+          <form class="card form" id="contactForm">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" autocomplete="name" required />
             </div>
 
-            <div class="form__row">
-              <label>
-                <span>Email</span>
-                <input type="email" name="email" autocomplete="email" required />
-              </label>
-              <label>
-                <span>Interest</span>
-                <select name="interest" required>
-                  <option value="Robusta">Robusta</option>
-                  <option value="Arabica">Arabica</option>
-                  <option value="Both" selected>Both</option>
-                </select>
-              </label>
+            <div class="field">
+              <label for="company">Company</label>
+              <input id="company" name="company" type="text" autocomplete="organization" />
             </div>
 
-            <label>
-              <span>Approx. Volume (bags/tons optional)</span>
-              <input type="text" name="volume" placeholder="e.g., 10 bags or 1–2 tons" />
-            </label>
-
-            <label>
-              <span>Message</span>
-              <textarea name="message" rows="6" required
-                placeholder="Include target specs (moisture/screen/defects), intended use, and delivery window."></textarea>
-            </label>
-
-            <div class="form__actions">
-              <button class="btn btn--primary" type="submit">Send</button>
-              <p class="muted small" id="formNote">
-                No server yet: this will open an email draft as a fallback.
-              </p>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
             </div>
 
-            <p class="toast" role="status" aria-live="polite" id="toast" hidden></p>
+            <div class="field">
+              <label for="interest">Interest</label>
+              <select id="interest" name="interest" required>
+                <option value="Both" selected>Both</option>
+                <option value="Robusta">Robusta</option>
+                <option value="Arabica">Arabica</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="6" required
+                placeholder="Include: target specs (moisture/screen/defects), volume, delivery window, receiving location, and any must-haves."></textarea>
+            </div>
+
+            <button class="btn primary" type="submit" id="sendBtn">Send</button>
+            <p class="fineprint">
+              No server on this starter site. Submits via email draft (mailto) to keep it simple.
+            </p>
           </form>
         </div>
       </div>
     </section>
+
+    <footer class="footer">
+      <div class="container foot">
+        <p class="muted">© <span id="year"></span> Terra Veritas Global LLC • Mansfield, Texas</p>
+        <a class="muted" href="#top">Back to top</a>
+      </div>
+    </footer>
   </main>
 
   <!-- Lot Sheet Modal -->
-  <div class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lotModalTitle" data-modal>
-    <div class="modal__backdrop" data-close-modal></div>
+  <div class="modal hidden" id="lotModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Request lot sheet">
+    <div class="modal-backdrop" data-close-lot-modal></div>
 
-    <div class="modal__panel" role="document">
-      <div class="modal__head">
-        <h3 id="lotModalTitle">Request Lot Sheet</h3>
-        <button class="icon-btn" type="button" aria-label="Close" data-close-modal>&times;</button>
+    <div class="modal-panel" role="document">
+      <div class="modal-head">
+        <div>
+          <h3>Request Lot Sheet</h3>
+          <p class="muted">Choose interest and approximate volume. We’ll prefill the contact form.</p>
+        </div>
+        <button class="iconbtn" type="button" aria-label="Close" data-close-lot-modal>×</button>
       </div>
 
-      <p class="muted">
-        Choose interest and approximate volume. We’ll prefill the contact form and jump you to Contact.
-      </p>
+      <div class="modal-body">
+        <div class="modal-grid">
+          <div class="field">
+            <label for="lotInterest">Interest</label>
+            <select id="lotInterest">
+              <option value="Both" selected>Both</option>
+              <option value="Robusta">Robusta</option>
+              <option value="Arabica">Arabica</option>
+            </select>
+          </div>
 
-      <div class="modal__grid">
-        <label>
-          <span>Interest</span>
-          <select id="lotInterest">
-            <option value="Robusta">Robusta</option>
-            <option value="Arabica">Arabica</option>
-            <option value="Both" selected>Both</option>
-          </select>
-        </label>
+          <div class="field">
+            <label for="lotVolume">Volume (optional)</label>
+            <input id="lotVolume" type="text" inputmode="numeric" placeholder="e.g., 10 bags / 1 container" />
+          </div>
+        </div>
 
-        <label>
-          <span>Volume (optional)</span>
-          <input id="lotVolume" type="text" placeholder="e.g., 10 bags" />
-        </label>
+        <div class="modal-actions">
+          <button class="btn primary" type="button" id="lotContinue">Continue</button>
+          <button class="btn secondary" type="button" data-close-lot-modal>Cancel</button>
+        </div>
+
+        <p class="fineprint">
+          Tip: add target specs (moisture/screen/defects) and delivery window in the message field after we jump to Contact.
+        </p>
       </div>
-
-      <div class="modal__actions">
-        <button class="btn btn--primary" type="button" data-lot-continue>Continue</button>
-        <button class="btn btn--ghost" type="button" data-close-modal>Cancel</button>
-      </div>
-
-      <p class="muted small">
-        Tip: include target specs (moisture/screen/defects) in your message after we jump to Contact.
-      </p>
     </div>
   </div>
-
-  <footer class="footer">
-    <div class="container footer__inner">
-      <div class="muted small">© <span id="year"></span> Terra Veritas Global LLC • Mansfield, Texas</div>
-      <div class="muted small">Uganda-origin green coffee • Robusta & Arabica</div>
-    </div>
-  </footer>
 
   <script src="app.js"></script>
 </body>
