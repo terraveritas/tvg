@@ -1,60 +1,85 @@
 (() => {
-  const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
   const yearEl = $("#year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const topbar = $("[data-topbar]");
+
+  const scrollToHash = (hash) => {
+    if (!hash || hash.length < 2) return;
+    const target = $(hash);
+    if (!target) return;
+    const topbarHeight = topbar ? topbar.getBoundingClientRect().height : 0;
+    const top = target.getBoundingClientRect().top + window.scrollY - topbarHeight - 20;
+    window.scrollTo({
+      top,
+      behavior: prefersReducedMotion ? "auto" : "smooth"
+    });
+  };
 
   $$('a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (event) => {
       const href = link.getAttribute("href");
-      if (!href || href.length < 2) return;
-      const target = document.querySelector(href);
+      if (!href || href === "#") return;
+      const target = $(href);
       if (!target) return;
       event.preventDefault();
-      target.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "start" });
+      scrollToHash(href);
     });
   });
 
+  if (topbar) {
+    const syncTopbar = () => {
+      topbar.dataset.scrolled = window.scrollY > 10 ? "true" : "false";
+    };
+
+    syncTopbar();
+    document.addEventListener("scroll", syncTopbar, { passive: true });
+  }
+
   const navToggle = $("[data-nav-toggle]");
   const mobileMenu = $("[data-mobilemenu]");
+
   if (navToggle && mobileMenu) {
     const closeMenu = () => {
       navToggle.setAttribute("aria-expanded", "false");
       mobileMenu.hidden = true;
+      document.body.classList.remove("menu-open");
     };
 
     navToggle.addEventListener("click", () => {
       const isOpen = navToggle.getAttribute("aria-expanded") === "true";
       navToggle.setAttribute("aria-expanded", String(!isOpen));
       mobileMenu.hidden = isOpen;
+      document.body.classList.toggle("menu-open", !isOpen);
     });
 
-    mobileMenu.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", closeMenu);
-    });
+    mobileMenu.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
 
     document.addEventListener("click", (event) => {
       if (mobileMenu.hidden) return;
-      if (!mobileMenu.contains(event.target) && !navToggle.contains(event.target)) {
-        closeMenu();
-      }
+      if (!mobileMenu.contains(event.target) && !navToggle.contains(event.target)) closeMenu();
     });
   }
 
   const modal = $("#lotModal");
-  const openButtons = $$('[data-open-lot-modal]');
-  const closeButtons = $$('[data-close-lot-modal]');
-  const lotContinue = $("#lotContinue");
+  const openButtons = $$("[data-open-lot-modal]");
+  const closeButtons = $$("[data-close-lot-modal]");
   const lotInterest = $("#lotInterest");
   const lotVolume = $("#lotVolume");
+  const lotContinue = $("#lotContinue");
 
   const contactForm = $("#contactForm");
   const contactInterest = $("#interest");
   const contactVolume = $("#volume");
   const contactMessage = $("#message");
+  const entryPoint = $("#entryPoint");
+  const sourcePage = $("#sourcePage");
+
+  if (sourcePage) sourcePage.value = window.location.href;
 
   const openModal = (presetInterest) => {
     if (!modal) return;
@@ -72,132 +97,88 @@
     document.body.style.overflow = "";
   };
 
-  openButtons.forEach((btn) => {
-    btn.addEventListener("click", () => openModal(btn.dataset.interest));
+  openButtons.forEach((button) => {
+    button.addEventListener("click", () => openModal(button.dataset.interest));
   });
-  closeButtons.forEach((btn) => btn.addEventListener("click", closeModal));
+
+  closeButtons.forEach((button) => button.addEventListener("click", closeModal));
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && modal && !modal.classList.contains("hidden")) {
-      closeModal();
-    }
+    if (event.key === "Escape" && modal && !modal.classList.contains("hidden")) closeModal();
   });
 
   if (lotContinue) {
     lotContinue.addEventListener("click", () => {
       const interest = lotInterest ? lotInterest.value : "Both";
-      const volume = lotVolume && lotVolume.value ? String(lotVolume.value) : "";
+      const volume = lotVolume && lotVolume.value ? lotVolume.value.trim() : "";
 
       if (contactInterest) contactInterest.value = interest;
       if (contactVolume && volume) contactVolume.value = volume;
 
+      if (entryPoint && contactForm) {
+        entryPoint.value = contactForm.dataset.entryPointModal || "Lot sheet modal";
+      }
+
       if (contactMessage) {
-        const lines = [
-          "Requesting current lot sheet.",
+        contactMessage.value = [
+          "Requesting a current lot sheet.",
           `- Interest: ${interest}`,
-          volume ? `- Volume: ${volume}` : "- Volume: (add)",
-          "- Target specs (moisture, screen, defects, etc.):",
+          volume ? `- Approx. volume: ${volume}` : "- Approx. volume: (add)",
+          "- Target specs (moisture, screen, defects, density, etc.):",
           "- Delivery window:",
           "- Destination / receiving city:"
-        ];
-        contactMessage.value = lines.join("\n");
+        ].join("\n");
       }
 
       closeModal();
-      const contact = $("#contact");
-      if (contact) contact.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "start" });
+      scrollToHash("#contact");
+
       setTimeout(() => {
         const nameField = $("#name");
         if (nameField) nameField.focus();
-      }, 320);
+      }, prefersReducedMotion ? 0 : 360);
     });
   }
 
-  const revealEls = $$('[data-reveal]');
-  if (revealEls.length && "IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+  const revealElements = $$("[data-reveal]");
+  if (revealElements.length) {
+    if ("IntersectionObserver" in window && !prefersReducedMotion) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
             entry.target.classList.add("is-visible");
             observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
+          });
+        },
+        { threshold: 0.18 }
+      );
 
-    revealEls.forEach((el) => observer.observe(el));
-  } else {
-    revealEls.forEach((el) => el.classList.add("is-visible"));
+      revealElements.forEach((element) => observer.observe(element));
+    } else {
+      revealElements.forEach((element) => element.classList.add("is-visible"));
+    }
   }
 
   if (contactForm) {
     const statusEl = contactForm.querySelector("[data-form-status]");
     const submitBtn = contactForm.querySelector('button[type="submit"]');
-    const honeypot = contactForm.querySelector('input[name="companySite"]');
+    const defaultEntryPoint = contactForm.dataset.entryPointDefault || "Contact section";
 
-    contactForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
+    if (entryPoint && !entryPoint.value) entryPoint.value = defaultEntryPoint;
 
-      const endpoint = contactForm.dataset.sheetEndpoint || "";
-      if (!endpoint || endpoint.includes("REPLACE_ME")) {
-        if (statusEl) {
-          statusEl.dataset.state = "error";
-          statusEl.textContent = "Form is not connected yet. Replace the Google Apps Script URL to enable submissions.";
-        }
-        return;
-      }
+    contactForm.addEventListener("submit", () => {
+      if (sourcePage) sourcePage.value = window.location.href;
+      if (entryPoint && !entryPoint.value) entryPoint.value = defaultEntryPoint;
 
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = "Sending...";
+        submitBtn.textContent = "Sending request...";
       }
 
       if (statusEl) {
-        statusEl.dataset.state = "";
-        statusEl.textContent = "Sending your request...";
-      }
-
-      const formData = new FormData(contactForm);
-      if (honeypot && honeypot.value.trim()) {
-        if (statusEl) {
-          statusEl.dataset.state = "success";
-          statusEl.textContent = "Thanks! We will reply with a lot sheet shortly.";
-        }
-        contactForm.reset();
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Send request";
-        }
-        return;
-      }
-
-      formData.append("page", window.location.href);
-      formData.append("submittedAt", new Date().toISOString());
-
-      try {
-        await fetch(endpoint, {
-          method: "POST",
-          body: formData,
-          mode: "no-cors"
-        });
-
-        if (statusEl) {
-          statusEl.dataset.state = "success";
-          statusEl.textContent = "Thanks! We will reply with a lot sheet shortly.";
-        }
-        contactForm.reset();
-      } catch (error) {
-        if (statusEl) {
-          statusEl.dataset.state = "error";
-          statusEl.textContent = "Something went wrong. Please email info@terraveritascoffee.com.";
-        }
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Send request";
-        }
+        statusEl.dataset.state = "info";
+        statusEl.textContent = "Submitting your request to Terra Veritas...";
       }
     });
   }
