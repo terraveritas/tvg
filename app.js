@@ -42,6 +42,36 @@
 
   const navToggle = $("[data-nav-toggle]");
   const mobileMenu = $("[data-mobilemenu]");
+  const submissionFlash = $("#submissionFlash");
+  const flashCloseButtons = $$("[data-close-flash]");
+
+  let flashTimer = 0;
+
+  const closeFlash = () => {
+    if (!submissionFlash) return;
+    submissionFlash.classList.add("hidden");
+    if (flashTimer) {
+      window.clearTimeout(flashTimer);
+      flashTimer = 0;
+    }
+  };
+
+  const showFlash = () => {
+    if (!submissionFlash) return;
+    submissionFlash.classList.remove("hidden");
+    if (flashTimer) window.clearTimeout(flashTimer);
+    flashTimer = window.setTimeout(closeFlash, prefersReducedMotion ? 3200 : 4200);
+  };
+
+  flashCloseButtons.forEach((button) => button.addEventListener("click", closeFlash));
+
+  const url = new URL(window.location.href);
+  if (url.searchParams.get("submitted") === "1") {
+    showFlash();
+    url.searchParams.delete("submitted");
+    const cleanUrl = `${url.pathname}${url.search ? url.search : ""}${url.hash ? url.hash : ""}`;
+    window.history.replaceState({}, "", cleanUrl || "/");
+  }
 
   if (navToggle && mobileMenu) {
     const closeMenu = () => {
@@ -170,6 +200,8 @@
 
     if (entryPoint && !entryPoint.value) entryPoint.value = defaultEntryPoint;
 
+    const successUrl = `${window.location.pathname || "index.html"}?submitted=1`;
+
     contactForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
@@ -197,7 +229,7 @@
       const formData = new FormData(contactForm);
 
       if (honeypot && honeypot.value.trim()) {
-        window.location.href = "thanks.html";
+        window.location.href = successUrl;
         return;
       }
 
@@ -216,7 +248,7 @@
         contactForm.reset();
         if (entryPoint) entryPoint.value = defaultEntryPoint;
         if (sourcePage) sourcePage.value = window.location.href;
-        window.location.href = "thanks.html";
+        window.location.href = successUrl;
       } catch (error) {
         if (statusEl) {
           statusEl.dataset.state = "error";
