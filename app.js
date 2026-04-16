@@ -121,12 +121,12 @@
 
       if (contactMessage) {
         contactMessage.value = [
-          "Requesting a current lot sheet.",
+          "Requesting current lots.",
           `- Interest: ${interest}`,
-          volume ? `- Approx. volume: ${volume}` : "- Approx. volume: (add)",
-          "- Target specs (moisture, screen, defects, density, etc.):",
+          volume ? `- Volume: ${volume}` : "- Volume: (add)",
+          "- Target specs:",
           "- Delivery window:",
-          "- Destination / receiving city:"
+          "- Destination:"
         ].join("\n");
       }
 
@@ -166,6 +166,7 @@
     const endpoint = contactForm.dataset.sheetEndpoint || contactForm.getAttribute("action") || "";
     const honeypot = contactForm.querySelector('input[name="companySite"]');
     const defaultEntryPoint = contactForm.dataset.entryPointDefault || "Contact section";
+    const defaultSubmitLabel = submitBtn ? submitBtn.textContent : "Send request";
 
     if (entryPoint && !entryPoint.value) entryPoint.value = defaultEntryPoint;
 
@@ -185,12 +186,12 @@
 
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = "Sending request...";
+        submitBtn.textContent = "Sending...";
       }
 
       if (statusEl) {
         statusEl.dataset.state = "info";
-        statusEl.textContent = "Submitting your request to Terra Veritas...";
+        statusEl.textContent = "Sending your request...";
       }
 
       const formData = new FormData(contactForm);
@@ -224,7 +225,7 @@
 
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.textContent = "Send sourcing request";
+          submitBtn.textContent = defaultSubmitLabel;
         }
       }
     });
