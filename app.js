@@ -163,13 +163,25 @@
   if (contactForm) {
     const statusEl = contactForm.querySelector("[data-form-status]");
     const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const endpoint = contactForm.dataset.sheetEndpoint || contactForm.getAttribute("action") || "";
+    const honeypot = contactForm.querySelector('input[name="companySite"]');
     const defaultEntryPoint = contactForm.dataset.entryPointDefault || "Contact section";
 
     if (entryPoint && !entryPoint.value) entryPoint.value = defaultEntryPoint;
 
-    contactForm.addEventListener("submit", () => {
+    contactForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
       if (sourcePage) sourcePage.value = window.location.href;
       if (entryPoint && !entryPoint.value) entryPoint.value = defaultEntryPoint;
+
+      if (!endpoint) {
+        if (statusEl) {
+          statusEl.dataset.state = "error";
+          statusEl.textContent = "The form is not connected right now. Please email info@terraveritascoffee.com.";
+        }
+        return;
+      }
 
       if (submitBtn) {
         submitBtn.disabled = true;
@@ -179,6 +191,41 @@
       if (statusEl) {
         statusEl.dataset.state = "info";
         statusEl.textContent = "Submitting your request to Terra Veritas...";
+      }
+
+      const formData = new FormData(contactForm);
+
+      if (honeypot && honeypot.value.trim()) {
+        window.location.href = "thanks.html";
+        return;
+      }
+
+      try {
+        await fetch(endpoint, {
+          method: "POST",
+          body: formData,
+          mode: "no-cors"
+        });
+
+        if (statusEl) {
+          statusEl.dataset.state = "success";
+          statusEl.textContent = "Thanks. Your request is on its way.";
+        }
+
+        contactForm.reset();
+        if (entryPoint) entryPoint.value = defaultEntryPoint;
+        if (sourcePage) sourcePage.value = window.location.href;
+        window.location.href = "thanks.html";
+      } catch (error) {
+        if (statusEl) {
+          statusEl.dataset.state = "error";
+          statusEl.textContent = "Something went wrong. Please email info@terraveritascoffee.com.";
+        }
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send sourcing request";
+        }
       }
     });
   }

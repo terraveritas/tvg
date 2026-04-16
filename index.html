@@ -287,15 +287,12 @@
           id="contactForm"
           name="lot-request"
           method="POST"
-          action="/thanks.html"
-          netlify
-          data-netlify="true"
-          netlify-honeypot="companySite"
+          action="https://script.google.com/macros/s/AKfycbwHmh5M1djkyYfTSG8GG9bxrVi9Zgl_BJSHnB9tq_i_1Hc3linU95PYoQX9bsS0dhWL/exec"
+          data-sheet-endpoint="https://script.google.com/macros/s/AKfycbwHmh5M1djkyYfTSG8GG9bxrVi9Zgl_BJSHnB9tq_i_1Hc3linU95PYoQX9bsS0dhWL/exec"
           data-entry-point-default="Contact section"
           data-entry-point-modal="Lot sheet modal"
           data-reveal
         >
-          <input type="hidden" name="form-name" value="lot-request" />
           <input type="hidden" name="sourcePage" id="sourcePage" value="" />
           <input type="hidden" name="entryPoint" id="entryPoint" value="Contact section" />
 
@@ -359,7 +356,7 @@
           </div>
 
           <p class="fineprint">
-            Submissions are handled through Netlify Forms so the request can be staged, reviewed, and deployed with the rest of the site.
+            Requests are saved to the working Google Sheets workflow so sourcing inquiries continue to land in the existing operating process.
           </p>
         </form>
       </div>
@@ -375,19 +372,6 @@
       </div>
     </footer>
   </main>
-
-  <form name="lot-request" netlify netlify-honeypot="companySite" hidden>
-    <input type="text" name="name" />
-    <input type="text" name="company" />
-    <input type="email" name="email" />
-    <input type="tel" name="phone" />
-    <input type="text" name="interest" />
-    <input type="text" name="volume" />
-    <textarea name="message"></textarea>
-    <input type="text" name="companySite" />
-    <input type="text" name="sourcePage" />
-    <input type="text" name="entryPoint" />
-  </form>
 
   <div class="modal hidden" id="lotModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lotModalTitle">
     <div class="modal-backdrop" data-close-lot-modal></div>
@@ -429,7 +413,7 @@
   </div>
 
   <noscript>
-    <div class="noscript">JavaScript is only needed for the lot-sheet shortcut. The contact form still works below.</div>
+    <div class="noscript">JavaScript is required for the lot-sheet shortcut and for submitting the contact form to the Google Sheets workflow.</div>
   </noscript>
 
   <script src="app.js"></script>
