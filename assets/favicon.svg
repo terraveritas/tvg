@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Terra Veritas monogram">
+  <defs>
+    <linearGradient id="tvg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#214236" />
+      <stop offset="100%" stop-color="#10211a" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="url(#tvg)" />
+  <text
+    x="32"
+    y="38"
+    fill="#f8f3ea"
+    font-family="Manrope, Arial, sans-serif"
+    font-size="19"
+    font-weight="800"
+    letter-spacing="3"
+    text-anchor="middle"
+  >
+    TV
+  </text>
+</svg>
